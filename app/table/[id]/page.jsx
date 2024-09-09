@@ -16,12 +16,12 @@ const ApartmentListing = () => {
         <span>200 East 87th Street, Upper East Side, Manhattan, NY, 10128</span>
       </div>
       
-      <div className="grid grid-cols-2 gap-2 mb-14">
+      <div className="grid md:grid-cols-2 gap-2 mb-14">
         <img src="https://assets-img.funnelstatic.com/unit_photos/originals/e264446cc211ea00d0bdc39cf42ef3e4.jpg?h=380&ixlib=python-1.1.2&s=f879e7ab4a1af9926ae5919a925c265c" alt="Apartment view 1" className="w-full h-80 object-cover" />
         <img src="https://assets-img.funnelstatic.com/unit_photos/originals/e264446cc211ea00d0bdc39cf42ef3e4.jpg?h=380&ixlib=python-1.1.2&s=f879e7ab4a1af9926ae5919a925c265c" alt="Apartment view 1" className="w-full h-80 object-cover" />
       </div>
       
-      <div className="flex justify-between items-center mb-4 w-3/5">
+      <div className="flex justify-between items-center mb-4 md:w-3/5">
         <div className="flex space-x-2">
           <Button variant="outline" size="sm" className="border-gray-300">FOR RENT</Button>
         </div>
@@ -36,7 +36,7 @@ const ApartmentListing = () => {
         </div>
       </div>
       
-      <div className="flex justify-between items-center mb-4 w-3/5">
+      <div className="flex justify-between items-center mb-4 md:w-3/5">
         <div className="flex items-center space-x-2">
           <Package className="text-[#c3d42c] h-5 w-5"/>
           <span className="text-xl">2 Bedroom 2 Bathrooms</span>
@@ -47,10 +47,10 @@ const ApartmentListing = () => {
         </div>
       </div>
       
-      <div className="flex gap-4 relative">
+      <div className="flex flex-col-reverse  md:flex-row  gap-4 relative">
       <div className="bg-gray-100">
-        <div className="p-4 w-4/5 mt-6">
-          <div className="grid grid-cols-3 gap-4">
+        <div className="p-4 md:w-4/5 mt-6">
+          <div className="grid grid-cols-2 xl:grid-cols-3 gap-4">
             <div className="col-span-1">
               <h3 className="text-xl font-light">Listing Description</h3>
             </div>
@@ -138,7 +138,7 @@ const ApartmentListing = () => {
         </div>
       </div>
     {/* </div> */}
-        <div className="w-1/3 absolute -top-36 right-4 bg-white">
+        <div className="md:w-1/3 md:absolute -top-36 right-4 bg-white">
           <div className="border p-4">
             <h3 className="text-xl mb-2">200</h3>
             <p className="text-sm mb-4">EAST 87TH</p>
