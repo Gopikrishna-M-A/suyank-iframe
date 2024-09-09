@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useSearchParams } from 'next/navigation';
 
 const ApartmentListingsTable = () => {
-  const searchParams = useSearchParams()
+  // const searchParams = useSearchParams()
   const [apartmentData, setApartmentData] = useState([
     { unit: '15M', layout: '2 Bedroom', baths: '2 BA', price: '$8,400' },
     { unit: '15E', layout: '2 Bedroom', baths: '2 BA', price: '$8,002' },
@@ -19,14 +19,12 @@ const ApartmentListingsTable = () => {
     { unit: '17G', layout: 'Studio', baths: '1 BA', price: '$3,900' },
   ])
 
-  const [sortOrder, setSortOrder] = useState("most-expensive")
-  const [sanityClient, setSanityClient] = useState(null)
-  
-  useEffect(() => {
-    const dataset = searchParams.get("dataset")
-    const projectId = searchParams.get("projectId")
-    const apiVersion = searchParams.get("apiVersion") || "2021-10-21"
-  }, [searchParams])
+
+  // useEffect(() => {
+  //   const dataset = searchParams.get("dataset")
+  //   const projectId = searchParams.get("projectId")
+  //   const apiVersion = searchParams.get("apiVersion") || "2021-10-21"
+  // }, [searchParams])
 
   
   return (
