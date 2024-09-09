@@ -8,6 +8,13 @@ import {
   Check,
   ChevronLeft,
 } from "lucide-react"
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+  } from "@/components/ui/dialog"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -53,9 +60,26 @@ const ApartmentListing = () => {
           <Button variant='outline' size='sm' className='border-gray-300'>
             <Camera className='mr-1' size={16} /> 14 PHOTOS
           </Button>
-          <Button variant='outline' size='sm' className='border-gray-300'>
+          
+          <Dialog>
+                  <DialogTrigger asChild>
+                  <Button variant='outline' size='sm' className='border-gray-300'>
             <Maximize className='mr-1' size={16} /> FLOORPLAN
           </Button>
+                  </DialogTrigger>
+                  <DialogContent className='bg-white'>
+                    <DialogHeader>
+                      <DialogTitle>
+                        Floorplan for Unit 
+                      </DialogTitle>
+                    </DialogHeader>
+                    <img
+                      src={'https://assets-img.nestiostatic.com/unit_photos/originals/8f7447efc37050fba59bbe4b595752b0.pdf?bg=fff&fit=max&fm=png&h=1000&w=1000&s=d905c407b1bf1484844d1b58e2f62e9c'}
+                      alt={`Floorplan for Unit`}
+                      className='w-full h-auto'
+                    />
+                  </DialogContent>
+                </Dialog>
           <Button variant='outline' size='sm' className='border-gray-300'>
             MAP
           </Button>
