@@ -102,7 +102,7 @@ const ApartmentListing = () => {
                 </p>
                 <p className='text-sm text-gray-600 mb-4'>
                   200 E 87th St has amenities and common areas including a state
-                  of the art gym, tenant lounge, and a children's playroom. It
+                  of the art gym, tenant lounge, and a children&apos;s playroom. It
                   is a full service building, staffed with 24-hour doorman,
                   super, and porter. Conveniently located between Lexington and
                   3rd on 87th street & S, and 4 trains and 2nd Ave Q line, the
