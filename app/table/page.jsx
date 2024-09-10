@@ -25,10 +25,11 @@ import {
 } from "@/components/ui/dialog"
 import { useSearchParams } from "next/navigation"
 import { DialogDescription } from "@radix-ui/react-dialog"
+import { createClient } from '@sanity/client'
 import Link from "next/link"
 
 const ApartmentListingsTable = () => {
-  // const searchParams = useSearchParams()
+  const searchParams = useSearchParams()
   const [apartmentData, setApartmentData] = useState([
     {
       unit: "15M",
@@ -104,12 +105,34 @@ const ApartmentListingsTable = () => {
     },
   ])
 
-  // useEffect(() => {
-  //   const dataset = searchParams.get("dataset")
-  //   const projectId = searchParams.get("projectId")
-  //   const apiVersion = searchParams.get("apiVersion") || "2021-10-21"
-  // }, [searchParams])
+  useEffect(() => {
+    const dataset = searchParams.get("dataset")
+    const projectId = searchParams.get("projectId")
+    const apiVersion = searchParams.get("apiVersion") || "2021-10-21"
 
+    if (dataset && projectId) {
+      const client = createClient({
+        projectId,
+        dataset,
+        apiVersion,
+        useCdn: false,
+      })
+
+      const fetchSanityData = async () => {
+        try {
+          const query = `*[_type == "client"]`;
+          const result = await client.fetch(query)
+          console.log('Sanity Data:', result)
+        } catch (error) {
+          console.error('Error fetching data from Sanity:', error)
+        }
+      }
+
+      fetchSanityData()
+    } else {
+      console.log('Sanity project ID or dataset not provided in URL parameters')
+    }
+  }, [searchParams])
   return (
     <div className='container mx-auto p-4'>
       <div className='flex justify-end mb-4 items-center gap-2'>
