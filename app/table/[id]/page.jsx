@@ -341,7 +341,7 @@ const ApartmentListing = () => {
                       onCheckedChange={handleCheckboxChange}
                     />
                     <Label htmlFor='isBroker' className='text-sm'>
-                      I'M A BROKER
+                      I&apos;M A BROKER
                     </Label>
                   </div>
                   <div className='grid grid-cols-2 gap-4'>
