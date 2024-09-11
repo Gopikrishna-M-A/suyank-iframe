@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['assets-img.funnelstatic.com', 'developers.google.com'],
+        domains: ['assets-img.funnelstatic.com', 'developers.google.com','cdn.sanity.io'],
       },
 };
 

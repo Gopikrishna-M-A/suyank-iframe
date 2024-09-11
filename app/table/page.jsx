@@ -30,99 +30,50 @@ import Link from "next/link"
 
 const ApartmentTableContent = () => {
   const searchParams = useSearchParams()
-  const [apartmentData, setApartmentData] = useState([
-    {
-      unit: "15M",
-      layout: "2 Bedroom",
-      baths: "2 BA",
-      price: "$8,400",
-      floorplanImage:
-        "https://assets-img.nestiostatic.com/unit_photos/originals/8f7447efc37050fba59bbe4b595752b0.pdf?bg=fff&fit=max&fm=png&h=1000&w=1000&s=d905c407b1bf1484844d1b58e2f62e9c",
-    },
-    {
-      unit: "15E",
-      layout: "2 Bedroom",
-      baths: "2 BA",
-      price: "$8,002",
-      floorplanImage:
-        "https://assets-img.nestiostatic.com/unit_photos/originals/8f7447efc37050fba59bbe4b595752b0.pdf?bg=fff&fit=max&fm=png&h=1000&w=1000&s=d905c407b1bf1484844d1b58e2f62e9c",
-    },
-    {
-      unit: "11E",
-      layout: "2 Bedroom",
-      baths: "2 BA",
-      price: "$8,250",
-      floorplanImage:
-        "https://assets-img.nestiostatic.com/unit_photos/originals/8f7447efc37050fba59bbe4b595752b0.pdf?bg=fff&fit=max&fm=png&h=1000&w=1000&s=d905c407b1bf1484844d1b58e2f62e9c",
-    },
-    {
-      unit: "9E",
-      layout: "2 Bedroom",
-      baths: "2 BA",
-      price: "$8,150",
-      floorplanImage:
-        "https://assets-img.nestiostatic.com/unit_photos/originals/8f7447efc37050fba59bbe4b595752b0.pdf?bg=fff&fit=max&fm=png&h=1000&w=1000&s=d905c407b1bf1484844d1b58e2f62e9c",
-    },
-    {
-      unit: "17F",
-      layout: "1 Bedroom",
-      baths: "1 BA",
-      price: "$5,300",
-      floorplanImage:
-        "https://assets-img.nestiostatic.com/unit_photos/originals/8f7447efc37050fba59bbe4b595752b0.pdf?bg=fff&fit=max&fm=png&h=1000&w=1000&s=d905c407b1bf1484844d1b58e2f62e9c",
-    },
-    {
-      unit: "17B",
-      layout: "Studio",
-      baths: "1 BA",
-      price: "$3,975",
-      floorplanImage:
-        "https://assets-img.nestiostatic.com/unit_photos/originals/8f7447efc37050fba59bbe4b595752b0.pdf?bg=fff&fit=max&fm=png&h=1000&w=1000&s=d905c407b1bf1484844d1b58e2f62e9c",
-    },
-    {
-      unit: "11L",
-      layout: "Studio",
-      baths: "1 BA",
-      price: "$3,975",
-      floorplanImage:
-        "https://assets-img.nestiostatic.com/unit_photos/originals/8f7447efc37050fba59bbe4b595752b0.pdf?bg=fff&fit=max&fm=png&h=1000&w=1000&s=d905c407b1bf1484844d1b58e2f62e9c",
-    },
-    {
-      unit: "9K",
-      layout: "Studio",
-      baths: "1 BA",
-      price: "$3,900",
-      floorplanImage:
-        "https://assets-img.nestiostatic.com/unit_photos/originals/8f7447efc37050fba59bbe4b595752b0.pdf?bg=fff&fit=max&fm=png&h=1000&w=1000&s=d905c407b1bf1484844d1b58e2f62e9c",
-    },
-    {
-      unit: "17G",
-      layout: "Studio",
-      baths: "1 BA",
-      price: "$3,900",
-      floorplanImage:
-        "https://assets-img.nestiostatic.com/unit_photos/originals/8f7447efc37050fba59bbe4b595752b0.pdf?bg=fff&fit=max&fm=png&h=1000&w=1000&s=d905c407b1bf1484844d1b58e2f62e9c",
-    },
-  ])
+  const [apartmentData, setApartmentData] = useState([])
+  const [dataset,setDataSet] = useState()
+  const [projectId,setProjectId] = useState()
+  const [apiVersion,setApiVersion] = useState()
 
   useEffect(() => {
-    const dataset = searchParams.get("dataset")
-    const projectId = searchParams.get("projectId")
-    const apiVersion = searchParams.get("apiVersion") || "2021-10-21"
+    
+    const datasetParam = searchParams.get("dataset")
+    const projectIdParam = searchParams.get("projectId")
+    const apiVersionParam = searchParams.get("apiVersion")
 
-    if (dataset && projectId) {
+    setDataSet(datasetParam)
+    setProjectId(projectIdParam)
+    setApiVersion(apiVersionParam)
+
+    if (datasetParam && projectIdParam) {
       const client = createClient({
-        projectId,
-        dataset,
-        apiVersion,
+        projectId:projectIdParam,
+        dataset:datasetParam,
+        apiVersion:apiVersionParam,
         useCdn: false,
       })
 
       const fetchSanityData = async () => {
         try {
-          const query = `*[_type == "client"]`;
+          // const query = `*[_type == "client"]`;
+          const query = `*[_type == "client" && _id == "971bad93-04a5-48e5-a511-bf356e7094ed"]{
+            templateFields {
+              availability {
+                units[] {
+                  _key,
+                  unit,
+                  layout,
+                  baths,
+                  price,
+                  fee,
+                  "floorplanImage": floorplan.asset->url
+                }
+              }
+            }
+          }`
           const result = await client.fetch(query)
-          console.log('Sanity Data:', result)
+          setApartmentData(result[0].templateFields.availability.units)
+          console.log(result[0].templateFields.availability.units)
         } catch (error) {
           console.error('Error fetching data from Sanity:', error)
         }
@@ -166,16 +117,16 @@ const ApartmentTableContent = () => {
           {apartmentData.map((apartment, index) => (
             <TableRow key={index}>
               <TableCell className='font-medium text-[#c3d42c]'>
-                <Link href='/table/1'>{apartment.unit}</Link>
+                <Link href={`/table/${apartment._key}?dataset=${dataset}&projectId=${projectId}&apiVersion=${apiVersion}`}>{apartment.unit}</Link>
               </TableCell>
-              <TableCell><Link href='/table/1'>{apartment.layout}</Link></TableCell>
+              <TableCell><Link  href={`/table/${apartment._key}?dataset=${dataset}&projectId=${projectId}&apiVersion=${apiVersion}`}>{apartment.layout}</Link></TableCell>
               <TableCell className='hidden md:table-cell'>
-                <Link href='/table/1'>{apartment.baths}</Link>
+                <Link  href={`/table/${apartment._key}?dataset=${dataset}&projectId=${projectId}&apiVersion=${apiVersion}`}>{apartment.baths}</Link>
               </TableCell>
               <TableCell>
-              <Link href='/table/1'>
+              <Link  href={`/table/${apartment._key}?dataset=${dataset}&projectId=${projectId}&apiVersion=${apiVersion}`}>
               <span className='font-medium text-[#c3d42c]'>
-                  {apartment.price}
+                  ${apartment.price || 0}
                 </span>
                 <span className='ml-2 bg-[#c3d42c] text-white py-1 px-2 text-xs'>
                   No Fee
